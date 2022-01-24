@@ -6,9 +6,9 @@ from django.http import HttpResponse
 def home(request):
     return render(request, 'home.html', {'name':'Vaibhav'})
 def add(request):
-    val1 = int(request.GET.get('num1'))
-    val2 = int(request.GET.get('num2'))
-    oprator = str(request.GET.get('op'))
+    val1 = int(request.POST.get('num1'))
+    val2 = int(request.POST.get('num2'))
+    oprator = str(request.POST.get('op'))
     if oprator=="+":
         res = val1+val2
     if oprator=="-":
