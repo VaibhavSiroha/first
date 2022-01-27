@@ -1,5 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import mysql.connector as sql
+
+# Connection to MySQL
+conn=sql.connect(host='localhost',user='root',passwd='1234',database='web')
+conn.autocommit=True
+if conn.is_connected():
+    print('connected succesfully')
+else:
+    print('not connected')
 
 # Create your views here.
 
