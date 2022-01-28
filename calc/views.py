@@ -2,28 +2,32 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import mysql.connector as sql
 
-# Connection to MySQL
-conn=sql.connect(host='localhost',user='root',passwd='1234',database='web')
-conn.autocommit=True
-if conn.is_connected():
-    print('connected succesfully')
-else:
-    print('not connected')
-
 # Create your views here.
 
 def home(request):
     return render(request, 'home.html', {'name':'Vaibhav'})
 def add(request):
-    val1 = int(request.POST.get('num1'))
-    val2 = int(request.POST.get('num2'))
-    oprator = str(request.POST.get('op'))
-    if oprator=="+":
-        res = val1+val2
-    if oprator=="-":
-        res = val1-val2
-    if oprator=="*":
-        res = val1*val2
-    if oprator=="/":
-        res = val1/val2
-    return render(request, 'result.html',{'result':res})
+    A = str(request.POST.get('num1'))
+    password = str(request.POST.get('num2'))
+    def check_user_name(A,password):
+        db = sql.connect("localhost", "root", "1234", "web")
+        #check if connection is successful to the database
+        if db.is_connected():
+            print("Connected to MySQL database...")
+        else:
+            return("Connection failed...")
+        
+        cursor = db.cursor()
+        sqle = "SELECT * FROM users WHERE UserName = '%s'" % (A) + "and Password ='%s'" % (password)
+        try:
+            cursor.execute(sqle)
+            results = cursor.fetchall()
+            if len(results) == 0:
+                res="UserName not found"
+            else:
+                res="Welcome " + A
+        except:
+            print("Error: unable to fetch data")
+        
+        return render(request, 'result.html',{'result':res})
+    return check_user_name(A,password)
