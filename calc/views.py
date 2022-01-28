@@ -10,12 +10,7 @@ def add(request):
     A = str(request.POST.get('num1'))
     password = str(request.POST.get('num2'))
     def check_user_name(A,password):
-        db = sql.connect("localhost", "root", "1234", "web")
-        #check if connection is successful to the database
-        if db.is_connected():
-            print("Connected to MySQL database...")
-        else:
-            return("Connection failed...")
+        db = sql.connect(host="localhost",user="root", password="1234",database="web")
         
         cursor = db.cursor()
         sqle = "SELECT * FROM users WHERE UserName = '%s'" % (A) + "and Password ='%s'" % (password)
